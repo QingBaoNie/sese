@@ -26,32 +26,32 @@ class MyPlugin(Star):
             yield self._do_lu(event)
 
     def _do_lu(self, event: AstrMessageEvent) -> MessageEventResult:
-    user_id = event.get_sender_id()
-    now = time.time()
+        user_id = event.get_sender_id()
+        now = time.time()
 
-    # 冷却检测（60 秒）
-    if user_id in self.last_time and now - self.last_time[user_id] < 60:
-        return event.plain_result("你小子，这么频繁想阳痿是吗？")
+        # 冷却检测（60 秒）
+        if user_id in self.last_time and now - self.last_time[user_id] < 60:
+            return event.plain_result("你小子，这么频繁想阳痿是吗？")
 
-    # 记录本次时间
-    self.last_time[user_id] = now
+        # 记录本次时间
+        self.last_time[user_id] = now
 
-    # 生成随机结果
-    time_val = round(random.uniform(1, 600), 2)
-    V = round(random.uniform(0.01, 100), 2)
+        # 生成随机结果
+        time_val = round(random.uniform(1, 600), 2)
+        V = round(random.uniform(0.01, 100), 2)
 
-    # 时间单位转换
-    if time_val < 60:
-        time_str = f"{time_val}秒"
-    elif time_val < 3600:
-        time_str = f"{round(time_val / 60, 1)}分钟"
-    else:
-        time_str = f"{round(time_val / 3600, 2)}小时"
+        # 时间单位转换
+        if time_val < 60:
+            time_str = f"{time_val}秒"
+        elif time_val < 3600:
+            time_str = f"{round(time_val / 60, 1)}分钟"
+        else:
+            time_str = f"{round(time_val / 3600, 2)}小时"
 
-    a = time_long(time_val)
-    b = volume(V)
-    user_name = event.get_sender_name()
+        a = time_long(time_val)
+        b = volume(V)
+        user_name = event.get_sender_name()
 
-    return event.plain_result(
-        f"{user_name}，你坚持了 {time_str}哦，{a} 射出 {V}ml，{b}!"
-    )
+        return event.plain_result(
+            f"{user_name}，你坚持了 {time_str}哦，{a} 射出 {V}ml，{b}!"
+        )
