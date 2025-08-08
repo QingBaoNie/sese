@@ -1,7 +1,7 @@
 from astrbot.api.event import filter
 from astrbot.api.star import Context, Star, register
-from astrbot.core.star.filter.event_message_type import event_message_type, EventMessageType
-from astrbot.core.platform.sources.aiocqhttp.aiocqhttp_message_event import AiocqhttpMessageEvent as AstrMessageEvent
+from astrbot.api import logger
+from astrbot.api.event import AstrMessageEvent
 import random
 from .back import time_long, volume
 
@@ -10,8 +10,8 @@ class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
 
-    @event_message_type(EventMessageType.GROUP_MESSAGE)
-    async def on_group_message(self, event: AstrMessageEvent):
+    @filter.text()  # 监听所有文本消息
+    async def on_text_message(self, event: AstrMessageEvent):
         msg = event.message_str.strip()
         if msg == "撸一下":  # 纯文本触发
             time_val = round(random.uniform(1, 600), 2)
