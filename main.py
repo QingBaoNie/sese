@@ -1,7 +1,6 @@
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 from astrbot.api.event import filter
-from astrbot.api.event.message_type import MessageType
 from astrbot.api.event.message_event import AstrMessageEvent
 import random
 from .back import time_long, volume
@@ -17,8 +16,15 @@ class MyPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
 
-    @filter.event_message_type(MessageType.GROUP)
-    async def on_group_message(self, event: AstrMessageEvent):
+    @filter.event()
+    async def on_message(self, event: AstrMessageEvent):
+        """
+        兼容老版本 AstrBot 的消息监听
+        """
+        # 只处理群聊消息
+        if getattr(event.message_obj, "message_type", None) != "group":
+            return
+
         msg = event.message_str.strip()
         if msg == "撸一下":
             time_val = round(random.uniform(1, 600), 2)
