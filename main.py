@@ -1,7 +1,6 @@
-from astrbot.api.event import filter
+from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
-from astrbot.api.event import AstrMessageEvent
 import random
 from .back import time_long, volume
 
